@@ -24,9 +24,13 @@ This installs:
 
 ## 3. Run it
 
-```bash
-python file_conversion.py
-```
+1. Right-click anywhere inside the project folder.
+2. Select **Open in Terminal**.
+3. Run the following command:
+   ```bash
+   python file_conversion.py
+   ```
+
 
 ## How to use
 
