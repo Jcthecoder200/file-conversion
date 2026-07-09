@@ -83,6 +83,23 @@ FRIENDLY_NAME = {
     ".webp": "WEBP Image",
 }
 
+# --------------------------------------------------------------------------
+# Short "what is this format good for" blurbs, shown under the target
+# dropdown so users can pick a sensible target type at a glance.
+# --------------------------------------------------------------------------
+FORMAT_DESCRIPTIONS = {
+    ".pdf":  "Best for a fixed, print-ready layout that looks the same on any device — great for final reports and forms.",
+    ".docx": "Best when you still need to edit the text — headings and formatting stay fully editable in Word.",
+    ".txt":  "Plain text with no formatting — smallest file size, opens anywhere, easiest for search or scripts.",
+    ".png":  "Best for screenshots and graphics with sharp text or transparency — lossless, but larger files.",
+    ".jpg":  "Best for photos — smaller files thanks to lossy compression, but no transparency.",
+    ".jpeg": "Best for photos — smaller files thanks to lossy compression, but no transparency.",
+    ".bmp":  "Uncompressed image — very large files, mainly kept for old-software compatibility.",
+    ".gif":  "Best for simple animations or graphics with few colors — supports animation, limited to 256 colors.",
+    ".tiff": "Best for archival or print-quality work — lossless with high bit-depth, but larger files.",
+    ".webp": "Best for the web — strong compression with transparency/animation support, smaller than PNG or JPG.",
+}
+
 
 def get_ext(path):
     return os.path.splitext(path)[1].lower()
@@ -478,7 +495,7 @@ class ConverterApp(tk.Tk):
         self.title("File Converter")
         self.configure(bg=BG_COLOR)
         self.resizable(False, False)
-        self.geometry("620x320")
+        self.geometry("620x350")
 
         self.src_path = tk.StringVar()
         self.src_ext = None
@@ -522,7 +539,17 @@ class ConverterApp(tk.Tk):
             values=[], width=18, font=FONT_NORMAL
         )
         self.target_combo.pack(side="left")
-        self.target_combo.bind("<<ComboboxSelected>>", lambda e: self._refresh_state())
+        self.target_combo.bind("<<ComboboxSelected>>", self._on_target_selected)
+
+        # Description of what the selected target type is good for
+        desc_row = tk.Frame(self, bg=BG_COLOR)
+        desc_row.pack(fill="x", padx=16, pady=(0, 4))
+        self.desc_label = tk.Label(
+            desc_row, text="", bg=BG_COLOR, fg="#555555",
+            font=("Segoe UI", 9, "italic"), anchor="w", justify="left",
+            wraplength=580,
+        )
+        self.desc_label.pack(fill="x")
 
     # ---- row 3 --------------------------------------------------------
     def _build_row3(self):
@@ -588,6 +615,7 @@ class ConverterApp(tk.Tk):
         else:
             self.target_var.set("")
 
+        self._update_description()
         self._refresh_state()
 
     def _choose_folder(self):
@@ -595,6 +623,14 @@ class ConverterApp(tk.Tk):
         if folder:
             self.out_folder.set(folder)
             self.folder_label.config(text=folder)
+
+    def _on_target_selected(self, event=None):
+        self._update_description()
+        self._refresh_state()
+
+    def _update_description(self):
+        ext = self.target_var.get()
+        self.desc_label.config(text=FORMAT_DESCRIPTIONS.get(ext, ""))
 
     def _refresh_state(self):
         is_image = self.src_ext in IMAGE_EXTS

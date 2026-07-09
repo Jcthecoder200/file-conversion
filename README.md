@@ -56,3 +56,4 @@ python file_conversion.py
 - Multi‑page PDFs converted to an image format produce one image per page (named `..._page1`, `..._page2`, …).
 - If a library is missing, the app still opens — you'll only get an error message when you try the specific conversion that needs it, telling you exactly what to `pip install`.
 - The `.docx` → `.pdf` conversion requires **Microsoft Word** to be installed on your Windows PC. If Word is not installed, you'll see a clear error message instead of a crash.
+- There will be a short description about the file type for user to select the best file type to convert 
