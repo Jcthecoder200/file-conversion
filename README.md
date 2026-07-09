@@ -8,8 +8,9 @@ there's nothing extra to install for the interface.
 ## 2. Install the conversion libraries
 Open Command Prompt in the folder with these files and run:
 
+```bash
 pip install -r requirements.txt
-
+```
 
 This installs:
 - **Pillow** – image format conversions (png/jpg/bmp/gif/tiff/webp) and image→pdf
@@ -23,7 +24,12 @@ This installs:
 
 ## 3. Run it
 
-python file_conversion.py
+1. Right-click anywhere inside the project folder.
+2. Select **Open in Terminal**.
+3. Run the following command:
+   ```bash
+   python file_conversion.py
+   ```
 
 
 ## How to use
